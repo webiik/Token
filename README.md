@@ -1,30 +1,63 @@
-Webiik Components
-=================
-Webiik components for lean web development with minimal dependencies. Use them standalone or within Webiik Framework. 
+<p align="left">
+<img src="https://img.shields.io/packagist/l/webiik/webiik.svg"/>
+<img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg"/>
+</p>
 
-Available Components
---------------------
-* [App](./src/Webiik/App/README.md)
-* [Arr](./src/Webiik/Arr/README.md)
-* [Container](./src/Webiik/Container/README.md)
-* [Cookie](./src/Webiik/Cookie/README.md)
-* [Csrf](./src/Webiik/Csrf/README.md)
-* [CurlHttpClient](./src/Webiik/CurlHttpClient/README.md)
-* [Data](./src/Webiik/Data/README.md)
-* [Error](./src/Webiik/Error/README.md)
-* [Flash](./src/Webiik/Flash/README.md)
-* [Log](./src/Webiik/Log/README.md)
-* [Login](./src/Webiik/Login/README.md)
-* [Mail](./src/Webiik/Mail/README.md)
-* [Middleware](./src/Webiik/Middleware/README.md)
-* [OAuth1Client](./src/Webiik/OAuth1Client/README.md)
-* [OAuth2Client](./src/Webiik/OAuth2Client/README.md)
-* [Router](./src/Webiik/Router/README.md)
-* [Session](./src/Webiik/Session/README.md)
-* [Token](./src/Webiik/Token/README.md)
-* [Translation](./src/Webiik/Translation/README.md)
-* [Validator](./src/Webiik/Validator/README.md)
-* [View](./src/Webiik/View/README.md)
+Token
+=====
+The Token generates and compares tokens.
+
+Installation
+------------
+```bash
+composer require webiik/token
+```
+
+Example
+-------
+```php
+$token = new \Webiik\Token\Token();
+$secureToken = $token->generate();
+if ($token->compare('vuefjsdfk', $secureToken)) {
+    // Tokens are equal
+}
+```
+
+Generating
+----------
+### generate
+```php
+generate($strength = 16): string
+```
+**generate()** returns safe token. By default the token is 32 characters long. It throws Exception when it was not possible to generate safe token. 
+```php
+try {
+    $token->generate();
+} catch (Exception $exception) {
+    // Unable to generate strong token
+}
+```
+
+### generateCheap 
+```php
+generateCheap($length = 32): string
+```
+**generateCheap()** returns cheap token. By default the token is 32 characters long. Cheap token is not safe, but is faster to generate.
+```php
+$token->generateCheap();
+```
+
+Comparison
+----------
+### compare
+```php
+compare(string $original, string $imprint): bool
+```
+**compare()** Compares two strings using the same time whether they're equal or not - Timing attack safe string comparison.
+```php
+$token->compare('known-string', 'user-string');
+```
+> Timing-attack safe comparison is slower than regular comparison.
 
 Resources
 ---------
